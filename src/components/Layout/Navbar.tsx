@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, Wallet } from "lucide-react";
-import { formatAddress } from "../../utils/formatAddress";
+import { displayAddressShort } from "../../utils/displayAddressShort";
 import { useWallet } from "../../providers/WalletProvider";
 
 export const Navbar: React.FC = () => {
@@ -80,7 +80,7 @@ export const Navbar: React.FC = () => {
               >
                 <Wallet className="w-4 h-4" />
                 <span className="hidden sm:block">
-                  {address ? formatAddress(address) : "Connect Wallet"}
+                  {address ? displayAddressShort(address) : "Connect Wallet"}
                 </span>
               </button>
             </div>
