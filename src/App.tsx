@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { Navbar } from './components/Layout/Navbar';
+import { WalletModal } from './components/WalletModal';
 import { HomePage } from './pages/HomePage';
 import { ListingsPage } from './pages/ListingsPage';
 import { PropertyDetailPage } from './pages/PropertyDetailPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { WalletProvider } from './providers/WalletProvider';
 
 const AppContent: React.FC = () => {
-  const [walletConnected, setWalletConnected] = useState(false);
   const [favorites, setFavorites] = useState(['1', '4']);
   const navigate = useNavigate();
-
-  const handleConnectWallet = () => {
-    // Mock wallet connection with animation
-    setTimeout(() => {
-      setWalletConnected(!walletConnected);
-    }, 1000);
-  };
 
   const handleToggleFavorite = (propertyId: string) => {
     setFavorites(prev => 
@@ -33,10 +27,7 @@ const AppContent: React.FC = () => {
 
   return (
     <>
-      <Navbar 
-        onConnectWallet={handleConnectWallet}
-        walletConnected={walletConnected}
-      />
+      <Navbar />
       
       <Routes>
         <Route 
@@ -73,14 +64,11 @@ const AppContent: React.FC = () => {
         />
         <Route 
           path="/dashboard" 
-          element={
-            <DashboardPage 
-              walletConnected={walletConnected}
-              onConnectWallet={handleConnectWallet}
-            />
-          } 
+          element={<DashboardPage />} 
         />
       </Routes>
+      
+      <WalletModal />
     </>
   );
 };
@@ -88,7 +76,9 @@ const AppContent: React.FC = () => {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <WalletProvider>
+        <AppContent />
+      </WalletProvider>
     </Router>
   );
 }
